@@ -1,8 +1,6 @@
 @import './common.scss';
-@import './ui/index.scss';
-@import './components/index.scss';
+@import './ui.scss';
+@import './sidebar.scss';
+@import './modal.scss';
 @import './chat.scss';
-
-.click {
-    cursor: pointer;
-}
+@import './auth.scss';

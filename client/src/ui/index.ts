@@ -4,3 +4,7 @@ export { default as Spinner } from './Spinner';
 export { default as ModalSpinner } from './ModalSpinner';
 export { default as Burger } from './Burger';
 export { default as Input } from './Input';
+export { default as Portal } from './Portal';
+export { default as Avatar } from './Avatar';
+export { default as Editor } from './Editor';
+export { default as ModalComponent } from './ModalComponent';

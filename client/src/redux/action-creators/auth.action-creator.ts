@@ -1,4 +1,6 @@
 import AuthService from "../../services/AuthService";
+import FileService from "../../services/FileService";
+import { IUser } from "../../types/models/IUser";
 import { authAction } from "../reducer/authSlice"
 import { modalActions } from "../reducer/modalSlice";
 import { AppDispatch } from "../store"
@@ -7,7 +9,6 @@ export const login = (email: string, password: string) => {
     return async(dispatch: AppDispatch) => {
         dispatch(authAction.start());
         try {
-            console.log(email, password);
             const response = await AuthService.login(email, password);
 
             localStorage.setItem('token', response.data.accessToken);
@@ -60,5 +61,33 @@ export const checkAuth = () => {
             console.log(e);
         }
         return false;
+    }
+}
+export const changeAvatar = (data: string) => {
+    return async(dispatch: AppDispatch) => {
+        dispatch(modalActions.loading());
+        try {
+            const response = await FileService.upload(data);
+
+            dispatch(authAction.avatar(response.data));
+
+            dispatch(modalActions.hideModal());
+        } catch(e) {
+            console.log(e);
+            dispatch(modalActions.error('Error while trying to upload image'));
+        }
+    }
+}
+export const editUser = (data: IUser) => {
+    return async(dispatch: AppDispatch) => {
+        dispatch(modalActions.loading());
+        try {
+            await AuthService.editUser(data);
+
+            dispatch(modalActions.hideModal());
+        } catch(e) {
+            console.log(e);
+            dispatch(modalActions.error('Error while trying to edit user data'));
+        }
     }
 }

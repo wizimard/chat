@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface ModalState {
-    type: 'message' | 'error';
+type ModalState = {
+    type: 'message' | 'error' | 'loading';
     message: string;
-    isShow: boolean;
-}
+    isShow: boolean | 'hide';
+};
+
 const initialState:ModalState = {
     type: 'message',
     message: '',
@@ -20,14 +21,21 @@ export const modalSlice = createSlice({
             state.message = action.payload;
             state.isShow = true;
         },
-        hideModal(state) {
-            state.message = '';
-            state.isShow = false;
-        },
         error(state, action: PayloadAction<string>) {
             state.type = 'error';
             state.message = action.payload;
             state.isShow = true;
+        },
+        loading(state) {
+            state.type = 'loading';
+            state.isShow = true;
+        },
+        prepareHideModal(state) {
+            state.isShow = 'hide';
+        },
+        hideModal(state) {
+            state.message = '';
+            state.isShow = false;
         }
     }
 });

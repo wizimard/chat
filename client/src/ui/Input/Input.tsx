@@ -1,17 +1,10 @@
-import { ChangeEvent, FormEvent } from "react";
-
-interface InputProps {
-    value: string;
-    onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-    placeholder?: string;
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+    value?: string;
+    name?: string;
 }
-const Input:React.FC<InputProps> = ({ value, onChange, placeholder }) => {
+const Input:React.FC<InputProps> = (props) => {
     return (
-        <input type="text"
-               value={value}
-               onChange={onChange}
-               className='input'
-               placeholder={placeholder} />
+        <input {...props} className={`input ${props.className ?? ''}`}  />
     );
 };
 

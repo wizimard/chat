@@ -10,7 +10,8 @@ import { ModalComponent } from './components';
 import { useAppDispatch, useAppSelector } from './hooks/redux';
 import { checkAuth } from './redux/action-creators/auth.action-creator';
 import { ModalSpinner } from './ui';
-import Home from './pages/Home';
+import { menuActions } from './redux/reducer/menuSlice';
+import { modalActions } from './redux/reducer/modalSlice';
 
 const App:React.FC = () => {
 
@@ -24,6 +25,36 @@ const App:React.FC = () => {
     dispatch(checkAuth()).then(() => {
       setIsReady(true);
     });
+    
+    const handleOnKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        if (document.getElementById('modal-component')) {
+          dispatch(modalActions.prepareHideModal());
+          return;
+        }
+        if (document.getElementById('modal-level3')) {
+          dispatch(menuActions.hideLevel3());
+          return;
+        }
+        if (document.getElementById('modal-level2')) {
+          dispatch(menuActions.prepareHideLevel2());
+          return;
+        }
+        if (document.getElementById('modal-level1')) {
+          dispatch(menuActions.prepareHideModal());
+          return;
+        }
+        if (document.getElementById('sidebar')) {
+          dispatch(menuActions.hideSidebar());
+          return;
+        }
+      }
+    }
+    document.addEventListener('keydown', handleOnKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleOnKeyDown);
+    }
   }, [dispatch]);
 
   if (!isReady) return (<ModalSpinner />);
@@ -31,10 +62,7 @@ const App:React.FC = () => {
   return (
     <div className="app">
       <Router>
-        <Suspense fallback={<ModalSpinner />}>
-          <Home />
-        </Suspense>
-        {/* <Routes>
+        <Routes>
           {isAuth ? (
             <>
             {routes.private.map(route => (
@@ -57,7 +85,7 @@ const App:React.FC = () => {
             </>
           )}
           <Route path='*' element={<Navigate to={isAuth ? '/home' : '/login'} replace />} />
-        </Routes> */}
+        </Routes>
       </Router>
       <ModalComponent />
     </div>

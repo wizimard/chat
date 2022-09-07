@@ -45,7 +45,7 @@ $api.interceptors.response.use((config) => {
 export default $api;
 
 export const $apiFile = axios.create({
-    baseURL: process.env.REACT_APP_API_URL
+    baseURL: `${process.env.REACT_APP_API_URL}/file/upload`
 });
 
 $apiFile.interceptors.request.use((config) => {

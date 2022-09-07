@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 
 import $api from '.';
+import { IUser } from "../types/models/IUser";
 import { AuthResponse } from "../types/response/AuthResponse";
 
 class AuthService {
@@ -17,6 +18,10 @@ class AuthService {
         return await axios.get<AuthResponse>(`${process.env.REACT_APP_BACKEND_URL}/refresh`, {
             withCredentials: true
         })
+    }
+    async editUser(data: IUser) {
+        console.log(data);
+        return await $api.post('/edit', { data });
     }
 }
 

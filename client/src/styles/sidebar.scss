@@ -1,0 +1,113 @@
+@use './variables' as variables;
+
+.sidebar {
+    width: 25%;
+    height: 100%;
+    padding: 30px 10px 0 10px;
+
+    position: relative;
+
+    color: #fff;
+    background-color: rgba(variables.$darkBackgroundcolor, 0.75);
+
+    white-space: nowrap;
+
+    animation: sidebarShow 0.5s forwards;
+    animation-timing-function: ease-in-out;
+    animation-delay: -0.2s;
+
+    &-hide {
+        animation: sidebarHide 0.5s forwards;
+    }
+    &-container {
+        z-index: 100;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(#000, 0.5);
+
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+    }
+    &__user {
+        padding: 20px 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 5px;
+        flex-wrap: wrap;
+    }
+    &__avatar {
+        width: 60px;
+        height: 60px;
+    }
+    &__fullname {
+        max-width: 100%;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    & button {
+        width: 100%;
+        padding: 10px;
+
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 10px;
+
+        background-color: rgba(#fff, 0.2);
+        color: inherit;
+
+        border-radius: 8px;
+
+        &:hover, &:focus {
+            background-color: rgba(variables.$primaryColor, 0.5);
+        }
+    }
+    &__logout {
+        width: 100%;
+        padding: 0 10px 10px 10px;
+
+        position: absolute;
+        bottom: 0;
+        left: 0;
+    }
+}
+.menu {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 10px;
+
+    & li {
+        width: 100%;
+    }
+    & svg {
+        height: 20px;
+    }
+}
+@keyframes sidebarShow {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 0%;
+    }
+}
+@keyframes sidebarHide {
+    0% {
+        left: 0%;
+    }
+    100% {
+        left: -100%;
+    }
+}

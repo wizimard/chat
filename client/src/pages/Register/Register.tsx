@@ -44,7 +44,7 @@ const Register:React.FC = () => {
                     return errors;
                 }}
                 onSubmit={(values, actions) => {
-                    dispatch(register(values.email, values.password, values.firstName + values.lastName));
+                    dispatch(register(values.email, values.password, values.firstName + ' ' + values.lastName));
                     setTimeout(() => {
                         actions.setSubmitting(false);
                     }, 400);

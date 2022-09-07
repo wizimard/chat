@@ -1,10 +1,12 @@
+import { MouseEvent } from 'react';
+
 interface BurgerProps {
-    onClick: () => void;
+    onClick: (e: MouseEvent<HTMLButtonElement>) => void;
 }
 
 const Burger:React.FC<BurgerProps> = ({ onClick }) => {
     return (
-        <button className="burger">
+        <button className="btn-img burger" onClick={onClick}>
             <span></span>
             <span></span>
             <span></span>

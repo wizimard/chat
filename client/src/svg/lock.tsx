@@ -1,0 +1,9 @@
+const LockSvg:React.FC = () => {
+  return (
+    <svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path fillRule="evenodd" clipRule="evenodd" d="M2 6V4C2 1.79086 3.79086 0 6 0C8.20914 0 10 1.79086 10 4V6H12V16H0V6H2ZM4 4C4 2.89543 4.89543 2 6 2C7.10457 2 8 2.89543 8 4V6H4V4ZM5 13V9H7V13H5Z" fill="#FFFFFF"/>
+    </svg>
+  );
+}
+
+export default LockSvg;
