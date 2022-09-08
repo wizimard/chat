@@ -20,10 +20,10 @@ async function responseErrorMiddleware(error: any, api: AxiosInstance) {
         return Promise.reject(error);
     }
 }
-
+console.log(process.env.REACT_APP_API_URL);
 const $api = axios.create({
     withCredentials: true,
-    baseURL: process.env.REACT_APP_BACKEND_URL
+    baseURL: process.env.REACT_APP_API_URL
 });
 
 $api.interceptors.request.use((config) => {
@@ -45,7 +45,7 @@ $api.interceptors.response.use((config) => {
 export default $api;
 
 export const $apiFile = axios.create({
-    baseURL: `${process.env.REACT_APP_API_URL}/file/upload`
+    baseURL: `${process.env.REACT_APP_API_URL}/file`
 });
 
 $apiFile.interceptors.request.use((config) => {

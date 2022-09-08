@@ -15,7 +15,7 @@ class AuthService {
         return await $api.post('/logout');
     }
     async checkAuth(): Promise<AxiosResponse<AuthResponse>> {
-        return await axios.get<AuthResponse>(`${process.env.REACT_APP_BACKEND_URL}/refresh`, {
+        return await axios.get<AuthResponse>(`${process.env.REACT_APP_API_URL}/refresh`, {
             withCredentials: true
         })
     }

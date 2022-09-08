@@ -54,6 +54,8 @@ export const checkAuth = () => {
         try {
             const response = await AuthService.checkAuth();
 
+            console.log(response.data);
+
             dispatch(authAction.login(response.data.user));
 
             return true;
@@ -61,21 +63,6 @@ export const checkAuth = () => {
             console.log(e);
         }
         return false;
-    }
-}
-export const changeAvatar = (data: string) => {
-    return async(dispatch: AppDispatch) => {
-        dispatch(modalActions.loading());
-        try {
-            const response = await FileService.upload(data);
-
-            dispatch(authAction.avatar(response.data));
-
-            dispatch(modalActions.hideModal());
-        } catch(e) {
-            console.log(e);
-            dispatch(modalActions.error('Error while trying to upload image'));
-        }
     }
 }
 export const editUser = (data: IUser) => {

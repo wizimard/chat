@@ -1,35 +1,37 @@
 import multer from 'multer';
-// import path from 'path';
+import path from 'path';
 import fs from 'fs';
 import { v4 as uuid} from 'uuid';
 
 import ApiError from '../exceptions/ApiError';
 // import { API_URL, UPLOAD_PATH } from '../constants/env';
+import { API_URL } from '../constants/env';
 
-const storage = multer.diskStorage({
+export const deleteCandidates = new Map<string, Date>();
+
+const multerStorage = multer.diskStorage({
     destination: function(_req, _file, callback) {
-        if (!_req.user) throw ApiError.UnauthorizedError();
-
-        const path = `./public/uploads/${_req.user.id}/${(new Date()).getDate()}-${(new Date()).getMonth()}-${(new Date()).getFullYear()}/`;
-
-        fs.mkdirSync(path, { recursive: true });
-
-        callback(null, path);
+        callback(null, "public/uploads/");
     },
-    filename: function(_req, file, callback) {
-        if (!_req.user) throw ApiError.UnauthorizedError();
+    filename: function(req, file, callback) {
+        if (!req.user) throw ApiError.UnauthorizedError();
 
-        const filename = `${uuid()}.${file.mimetype.split('/')[1]}`;
+        const filename = `${uuid()}${path.extname(file.originalname)}`;
 
-        callback(null, filename);
+        const date = new Date();
 
-        // const dir = `/uploads/${_req.user.id}/${(new Date()).getDate()}-${(new Date()).getMonth()}-${(new Date()).getFullYear()}/`;
+        const dir = `${req.user.id}/${date.getDate()}-${date.getMonth()}-${date.getFullYear()}/`;
 
-        // const url = `${API_URL}${dir}${filename}`;
+        fs.mkdirSync(`public/uploads/${dir}`, { recursive: true });
+
+        callback(null, `${dir}${filename}`);
+
+        const url = `${API_URL}/uploads/${dir}${filename}`;
+
+        deleteCandidates.set(url, new Date());
     }
 });
 
-export const upload = multer({ 
-    storage,
-    limits: { fieldSize: 25 * 1024 * 1024 }
+export const UploadFile = multer({ 
+    storage: multerStorage
 });

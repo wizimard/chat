@@ -4,3 +4,4 @@ export { default as ModalComponent } from './ModalComponent';
 export { default as ChatSidebar } from './ChatSidebar';
 export { default as ChatInfo } from './ChatInfo';
 export { default as Messages } from './Messages';
+export { default as FileUpload } from './FileUpload';
