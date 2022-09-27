@@ -1,9 +1,9 @@
 import { useCallback } from "react";
 import { Link } from "react-router-dom";
-import { IChatPerson } from "../../types/models/IChat";
+import { IContactPerson } from "../../types/models/IContacts";
 import { Avatar } from "../../ui";
 
-const Person:React.FC<IChatPerson> = ({ id, name, avatar, isOnline, unread }) => {
+const Person:React.FC<IContactPerson> = ({ id, name, avatar, isOnline, unread }) => {
 
   const handlerOnClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
     e.currentTarget.blur();

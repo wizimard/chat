@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 type MenuState = {
   type: 'new_channel' | 'channels' | 'friends' | 'settings';
   typeLevel2: 'profile' | 'security';
-  typeLevel3: 'name' | 'email' | 'username';
+  typeLevel3: 'name' | 'email' | 'username' | 'link';
   isShow: boolean | 'hide';
   isShowLevel2: boolean | 'hide';
   isShowLevel3: boolean;
@@ -82,6 +82,11 @@ export const menuSlice = createSlice({
     },
     username(state, action: PayloadAction<string>) {
       state.typeLevel3 = 'username';
+      state.valueLevel3 = action.payload;
+      state.isShowLevel3 = true;
+    },
+    link(state, action: PayloadAction<string>) {
+      state.typeLevel3 = 'link';
       state.valueLevel3 = action.payload;
       state.isShowLevel3 = true;
     },

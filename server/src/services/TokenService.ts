@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 
 import TokenModel from '../models/TokenModel';
 
-import UserDto from '../dtos/UserDto';
+import { UserDto } from '../dtos/UserDto';
 
 import { JWT_ACCESS_SECRET_KEY, JWT_REFRESH_SECRET_KEY } from '../constants/env';
 

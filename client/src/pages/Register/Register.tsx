@@ -132,10 +132,9 @@ const Register:React.FC = () => {
                             {errors.password && touched.password && errors.password}
                         </p>
                     </div>
-                    <Button text="register" 
-                        type="submit" 
-                        additionalClass="auth__btn"
-                        disabled={isSubmitting} />
+                    <Button type="submit" 
+                        className="auth__btn"
+                        disabled={isSubmitting}>register</Button>
                     <span>Don't have an account? <Link to='/login'>login</Link></span>
                 </Form>
                 )}

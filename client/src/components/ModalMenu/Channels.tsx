@@ -2,7 +2,7 @@ import { useMemo, useCallback, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { menuActions } from "../../redux/reducer/menuSlice";
-import { IChat } from "../../types/models/IChat";
+import { IContactChannel } from "../../types/models/IContacts";
 import { Input, Spinner } from "../../ui";
 
 const Channels:React.FC = () => {
@@ -15,7 +15,7 @@ const Channels:React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const channels = useMemo(() => {
-    return contacts.filter((contact): contact is IChat => !('avatar' in contact))
+    return contacts.filter((contact): contact is IContactChannel => !('avatar' in contact))
       .filter(contact => contact.name.toLocaleLowerCase().includes(searchText.toLocaleLowerCase()))
       .sort((contact1, contact2) => contact1.name.localeCompare(contact2.name));
   }, [contacts, searchText]);

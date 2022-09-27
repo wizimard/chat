@@ -1,14 +1,18 @@
+export interface IChannelShort {
+    id: string;
+    name: string;
+} 
 export interface IChannelMember {
     id: string;
-    fullname: string;
+    name: string;
     avatar: string;
     role: 'member';
 }
 export interface IChannelAdmin extends Omit<IChannelMember, 'role'> {
-    role: 'admin'
+    role: 'admin';
 }
 export interface IChannelAdministrator extends Omit<IChannelMember, 'role'> {
-    role: 'administrator'
+    role: 'administrator';
 }
 export interface IChannel {
     id: string;

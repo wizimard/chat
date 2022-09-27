@@ -39,8 +39,8 @@ const ChatSidebar:React.FC = () => {
   }, [location.pathname]);
 
   return (
-    <div className="chat__sidebar">
-      <div className="chat__sidebar--header">
+    <div className="chat-sidebar">
+      <div className="chat-sidebar__header">
         <Burger onClick={handleShowSidebar} />
         <div className="input__search">
           <Input value={searchText} onChange={handleOnChange} placeholder="Search..." />
@@ -49,26 +49,26 @@ const ChatSidebar:React.FC = () => {
           </svg>
         </div>
       </div>
-        <div className="contacts">
-          <ul>
-            {contacts.filter(contact => contact.name.toLowerCase()
-              .includes(searchText.toLowerCase()))
-              .map(contact => {
-                let className ='';
-                if (activeContact?.id === contact.id) {
-                  if ((activeContact?.type === 'person' && 'isOnline' in contact) ||
-                    (activeContact?.type === 'channel' && !('isOnline' in contact))) {
-                    className = 'contacts__active';
-                  }
+      <div className="contacts">
+        <ul>
+          {contacts.filter(contact => contact.name.toLowerCase()
+            .includes(searchText.toLowerCase()))
+            .map(contact => {
+              let className ='';
+              if (activeContact?.id === contact.id) {
+                if ((activeContact?.type === 'person' && 'isOnline' in contact) ||
+                  (activeContact?.type === 'channel' && !('isOnline' in contact))) {
+                  className = 'contacts__active';
                 }
-                return (
-                  <li key={contact.id} className={className} >
-                    {'isOnline' in contact ? <Person {...contact} /> : <Channel {...contact} />}
-                  </li>
-                )
-            })}
-          </ul>
-        </div>
+              }
+              return (
+                <li key={contact.id} className={className} >
+                  {'isOnline' in contact ? <Person {...contact} /> : <Channel {...contact} />}
+                </li>
+              )
+          })}
+        </ul>
+      </div>
     </div>
   );
 };

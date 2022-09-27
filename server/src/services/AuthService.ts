@@ -8,12 +8,12 @@ import ApiError from '../exceptions/ApiError';
 
 import UserModel from "../models/UserModel";
 
-import UserDto from '../dtos/UserDto';
+import { UserDto } from '../dtos/UserDto';
 
 import { API_URL } from '../constants/env';
 
 class AuthService {
-    async registration(email: string, password: string, fullname: string) {
+    async registration(email: string, password: string, name: string) {
         const candidate = await UserModel.findOne({email});
 
         if (candidate) {
@@ -27,7 +27,7 @@ class AuthService {
         const user = await UserModel.create({
             email: email.trim(),
             password: hashPassword,
-            fullname: fullname.trim(),
+            name: name.trim(),
             avatar: 'http://localhost:5050/default/avatar.png',
             confirmLink
         });
@@ -110,6 +110,36 @@ class AuthService {
             ...tokens,
             user: AuthUserDto
         }
+    }
+    async edit(data: {
+        id: string;
+        name: string;
+        email: string;
+        username?: string;
+        avatar: string;
+        bio?: string;
+    }) {
+        const user = await UserModel.findById(data.id);
+
+        if (!user) {
+            throw ApiError.BadRequest('User not found');
+        }
+
+        if (data.username) {
+            const candidate = await UserModel.findOne({username: data.username});
+
+            if (candidate && candidate._id !== user._id) {
+                throw ApiError.BadRequest('Username is busy!');
+            }
+        }
+
+        const isChangedEmail = data.email === user.email ? false : true;
+
+        await user.updateOne({ ...data });
+
+        await user.save();
+
+        return isChangedEmail ? 'You changed your email.' : true;;
     }
 }
 

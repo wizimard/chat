@@ -5,11 +5,16 @@ import LockSvg from "../../svg/lock";
 import LogoutSvg from "../../svg/logout";
 import ThemeSvg from "../../svg/theme";
 import UserSvg from "../../svg/user";
-import { Avatar } from "../../ui";
+import { Avatar, MenuButton } from "../../ui";
+
+enum NAMES {
+  PROFILE = 'PROFILE',
+  SECURITY = 'SECURITY'
+}
 
 const actions = new Map();
-actions.set('profile', menuActions.profile);
-actions.set('security', menuActions.security);
+actions.set(NAMES.PROFILE, menuActions.profile);
+actions.set(NAMES.SECURITY, menuActions.security);
 
 const Settings:React.FC = () => {
 
@@ -17,10 +22,12 @@ const Settings:React.FC = () => {
 
   const user = useAppSelector(state => state.auth.user);
 
-  const handlerOnClickMenuItem = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
-    const func = actions.get(e.currentTarget.name);
-    if (func) dispatch(func());
-    e.currentTarget.blur();
+  const handlerOnClickMenuItem = useCallback((name: string) => {
+    return (e: React.MouseEvent<HTMLButtonElement>) => {
+      const func = actions.get(name);
+      if (func) dispatch(func());
+      e.currentTarget.blur();
+    }
   }, [dispatch]);
 
   return (
@@ -29,24 +36,20 @@ const Settings:React.FC = () => {
       <div className="modal__user">
         <Avatar img={user.avatar} />
         <div className="modal__user--info">
-          <span className="modal__user--username">{user.fullname}</span>
+          <span className="modal__user--username">{user.name}</span>
           <span>{user.email}</span>
         </div>
       </div>
     )}
     <div className="modal__menu">
-      <button className="modal__btn"
-        name='profile'
-        onClick={handlerOnClickMenuItem}>
+      <MenuButton onClick={handlerOnClickMenuItem(NAMES.PROFILE)}>
         <UserSvg />
         Edit profile
-      </button>
-      <button className="modal__btn"
-        name='security'
-        onClick={handlerOnClickMenuItem}>
+      </MenuButton>
+      <MenuButton onClick={handlerOnClickMenuItem(NAMES.SECURITY)}>
         <LockSvg />
         Security
-      </button>
+      </MenuButton>
       <button className="btn-img modal__btn modal__btn_abs modal__logout">
         <LogoutSvg />
         Logout

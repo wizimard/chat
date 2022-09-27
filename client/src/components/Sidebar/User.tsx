@@ -10,7 +10,7 @@ const User:React.FC = () => {
     {user && (
       <div className="sidebar__user">
         <Avatar img={user.avatar} className='sidebar__avatar' />
-        <span className="sidebar__fullname">{ user.fullname }</span>
+        <span className="sidebar__name">{ user.name }</span>
       </div>
     )}
     </>

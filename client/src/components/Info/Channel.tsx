@@ -46,9 +46,9 @@ const Channel:React.FC<IChannel> = ({
         { statusCopyLink }
       </span>
       {isSubscribed ? (
-        <Button additionalClass="info__btn info__btn-channel" text="leave from channel" />
+        <Button className="info__btn info__btn-channel">leave from channel</Button>
       ) : (
-        <Button additionalClass="info__btn info__btn-channel" text="join to channel" />
+        <Button className="info__btn info__btn-channel">join to channel</Button>
       )}
     </div>
     <div className="contacts contacts_list info__members">
@@ -56,7 +56,7 @@ const Channel:React.FC<IChannel> = ({
       <Link to={`/home/sel=${admin.id}`} 
         className="contacts__item">
         <Avatar img={admin.avatar} className={'contacts__avatar'} />
-        <span className="contacts__name">{ admin.fullname }</span>
+        <span className="contacts__name">{ admin.name }</span>
       </Link>
       {administrators.length > 0 && (
         <>
@@ -67,7 +67,7 @@ const Channel:React.FC<IChannel> = ({
               <Link to={`/home/sel=${administrator.id}`} 
                 className="contacts__item">
                 <Avatar img={administrator.avatar} className={'contacts__avatar'} />
-                <span className="contacts__name">{ administrator.fullname }</span>
+                <span className="contacts__name">{ administrator.name }</span>
               </Link>
             </li>
           ))}
@@ -83,7 +83,7 @@ const Channel:React.FC<IChannel> = ({
                 <Link to={`/home/sel=${member.id}`} 
                   className="contacts__item">
                   <Avatar img={member.avatar} className={'contacts__avatar'} />
-                  <span className="contacts__name">{ member.fullname }</span>
+                  <span className="contacts__name">{ member.name }</span>
                 </Link>
               </li>
             ))}

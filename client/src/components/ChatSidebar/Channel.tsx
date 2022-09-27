@@ -1,8 +1,8 @@
 import React, { useCallback } from "react";
 import { Link } from "react-router-dom";
-import { IChat } from "../../types/models/IChat";
+import { IContactChannel } from "../../types/models/IContacts";
 
-const Channel:React.FC<IChat> = ({ id, name, unread }) => {
+const Channel:React.FC<IContactChannel> = ({ id, name, unread }) => {
 
   const handlerOnClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
     e.currentTarget.blur();

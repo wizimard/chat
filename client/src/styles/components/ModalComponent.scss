@@ -1,0 +1,85 @@
+@use '../variables' as variables;
+
+.modal-component {
+  width: 400px;
+  min-height: 175px;
+  height: auto;
+  padding: 20px;
+
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  color: variables.$darkfontPrimaryColor;
+  background-color: variables.$darkBackgroundcolor;
+
+  box-shadow: 0 0 5px variables.$primaryColor;
+
+  border-radius: 20px;
+
+  animation: modalComponentShow 0.5s forwards;
+  animation-timing-function: ease-in-out;
+  animation-delay: -0.2s;
+
+  &_hide {
+    animation: modalComponentHide 0.5s forwards;
+  }
+
+  &__header {
+    width: 100%;
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  &__type {
+    font-size: 1.5em;
+    color: #fff;
+    text-transform: uppercase;
+  }
+  &__close {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    translate: 0 -50%;
+  }
+  &__content {
+    width: 100%;
+    padding: 20px 0;
+  }
+  & .btn-group {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  &_error {
+    & .modal-component {
+      &__type {
+        color: variables.$errorColor;
+      }
+    }
+  }
+}
+@keyframes modalComponentShow {
+  0% {
+    top: -75%;
+  }
+  100% {
+    top: 0;
+  }
+}
+@keyframes modalComponentHide {
+  0% {
+    top: 0;
+  }
+  100% {
+    top: -75%;
+  }
+}

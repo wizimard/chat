@@ -1,6 +1,6 @@
 @import './common.scss';
-@import './ui.scss';
-@import './sidebar.scss';
-@import './modal.scss';
+@import './ui/index.scss';
+@import './components/index.scss';
+@import './pages/index.scss';
+
 @import './chat.scss';
-@import './auth.scss';

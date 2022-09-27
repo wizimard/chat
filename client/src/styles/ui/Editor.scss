@@ -1,0 +1,17 @@
+@use '../variables' as variables;
+
+.editor {
+  width: 100%;
+  min-height: 1em;
+  padding: 5px 0;
+
+  border: none;
+  outline: none;
+
+  font-size: 1.1em;
+
+  &:empty:before {
+    content: attr(placeholder);
+    color: variables.$fontPrimaryColor;
+  }
+}

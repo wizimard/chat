@@ -1,0 +1,227 @@
+@use '../variables' as variables;
+
+.info {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+
+  overflow-y: overlay;
+  overflow-x: hidden;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+
+  color: #fff;
+  background-color: rgba(#25272A, 0.75);
+  &__header, &__content {
+      padding: 0 10px;
+  }
+  &__header {
+      width: 100%;
+      padding-bottom: 10px;
+
+      &-channel {
+          padding-top: 40px;
+      }
+  }
+  &__avatar {
+      max-width: 200px;
+      max-height: 200px;
+
+      align-self: center;
+  }
+  &__text {
+      line-height: 150%;
+      word-break: break-all;
+  }
+  &__title {
+      display: inline-block;
+
+      font-size: 1.4em;
+  }
+  &__name {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 5px;
+
+    & span {
+        width: 100%;
+    }
+  }
+  &__label {
+      color: variables.$fontPrimaryColor;
+  }
+  &__btn {
+      width: 100%;
+      margin-top: 10px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      text-transform: uppercase;
+
+      &-channel {
+          margin-top: 0;
+      }
+      &:hover, &:focus {
+          color:rgba(#25272A, 0.75);
+      }
+      &:disabled {
+        filter: none;
+
+        &:hover, &:focus {
+            background-color: inherit;
+            color: variables.$primaryColor;
+        }
+      }
+  }
+  &__container {
+      margin-bottom: 15px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      gap: 5px;
+
+      &:last-child {
+          margin-bottom: 0;
+      }
+  }
+  &__links {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      gap: 5px;
+
+      & a {
+          color: variables.$primaryColor;
+          &:hover, &:focus {
+              text-decoration: underline;
+          }
+      }
+  }
+  &__members {
+      width: 100%;
+      height: auto;
+      padding: 0;
+
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      gap: 10px;
+
+      &--title {
+          width: 100%;
+          padding-right: 15px;
+
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          background: none;
+
+          font-size: 1em;
+
+          & span {
+              color: variables.$primaryColor;
+          }
+          &:hover, &:focus {
+              opacity: 0.5;
+          }
+      }
+      & ul {
+          height: auto;
+          margin: 0;
+      }
+  }
+  & .contacts__item {
+      color: variables.$darkfontPrimaryColor;
+  }
+  &__link {
+      margin-top: 20px;
+      margin-bottom: 5px;
+
+      color: variables.$primaryColor;
+      background: none;
+      
+      word-break: break-all;
+
+      cursor: pointer;
+
+      &--status {
+          width: 100%;
+          height: 1.5em;
+
+          display: flex;
+          align-items: flex-start;
+          justify-content: flex-start;
+
+          font-size: 1em;
+      }
+      &--hide {
+          opacity: 0;
+          transition: all 4s;
+      }
+      &:hover, &:focus {
+          opacity: 0.8;
+          text-decoration: underline;
+      }
+      &:disabled {
+          opacity: 0.5;
+      }
+  }
+  &__attach {
+      width: 100%;
+
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      gap: 10px;
+      
+      & button {
+          width: 100%;
+          height: 2em;
+          padding: 0 15px 0 10px;
+
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          background-color: rgba(#fff, 0.2);
+
+          border-radius: 5px;
+
+          cursor: pointer;
+
+          &:first-child {
+              padding: 0;
+              
+              background: none;
+          }
+          &:focus, &:hover {
+              opacity: 0.5;
+          }
+      }
+      & span {
+          color: variables.$primaryColor;
+      }
+  }
+  &__loading {
+    width: 100%;
+    height: 100%;
+    padding-top: 50%;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+  }
+}

@@ -1,15 +1,15 @@
 import axios, { AxiosResponse } from "axios";
 
 import $api from '.';
-import { IUser } from "../types/models/IUser";
-import { AuthResponse } from "../types/response/AuthResponse";
+import { UserEditRequest } from "../types/request/UserEditRequest";
+import { AuthResponse, AuthResponseEdit } from "../types/response/AuthResponse";
 
 class AuthService {
     async login(email: string, password: string): Promise<AxiosResponse<AuthResponse>> {
         return await $api.post<AuthResponse>('/login', { email, password });
     }
-    async register(email: string, password: string, fullname: string) {
-        return await $api.post('/register', { email, password, fullname });
+    async register(email: string, password: string, name: string) {
+        return await $api.post('/register', { email, password, name });
     }
     async logout() {
         return await $api.post('/logout');
@@ -19,9 +19,8 @@ class AuthService {
             withCredentials: true
         })
     }
-    async editUser(data: IUser) {
-        console.log(data);
-        return await $api.post('/edit', { data });
+    async editUser(data: UserEditRequest): Promise<AxiosResponse<AuthResponseEdit>> {
+        return await $api.put<AuthResponseEdit>('/user/edit', { data });
     }
 }
 

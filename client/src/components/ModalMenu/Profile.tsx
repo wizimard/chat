@@ -3,7 +3,6 @@ import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { editUser } from "../../redux/action-creators/auth.action-creator";
 import { authAction } from "../../redux/reducer/authSlice";
 import { menuActions } from "../../redux/reducer/menuSlice";
-import { modalActions } from "../../redux/reducer/modalSlice";
 import { Avatar, Button, Editor } from "../../ui";
 import FileUpload from "../FileUpload";
 
@@ -33,7 +32,7 @@ const Profile:React.FC = () => {
     const name = e.currentTarget.name;
     switch(name) {
       case 'name':
-        dispatch(menuActions.name(changeUser.fullname || ''));
+        dispatch(menuActions.name(changeUser.name || ''));
         break;
       case 'email':
         dispatch(menuActions.email(changeUser.email || ''));
@@ -44,11 +43,24 @@ const Profile:React.FC = () => {
     }
     e.currentTarget.blur();
   }, [dispatch, changeUser]);
+  const handleOnClickBtnLink = useCallback((link: string) => {
+    return (e: React.MouseEvent<HTMLButtonElement>) => {
+      dispatch(menuActions.link(link));
+      e.currentTarget.blur();
+    }
+  }, [dispatch]);
 
   const handleSave = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
-    changeUser && dispatch(editUser(changeUser));
+    changeUser && dispatch(editUser({
+      name: changeUser.name,
+      email: changeUser.email,
+      username: changeUser.username,
+      avatar: changeUser.avatar,
+      bio: changeUser.bio
+    }));
     e.currentTarget.blur();
   }, [dispatch, changeUser]);
+
   const handleCancel = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
     dispatch(authAction.cancel());
     e.currentTarget.blur();
@@ -81,7 +93,7 @@ const Profile:React.FC = () => {
                 onChange={handleSelectImage} />
             </label>
           </div>
-          <span className="modal__profile--title">{ changeUser.fullname }</span>
+          <span className="modal__profile--title">{ changeUser.name }</span>
         </div>
         <Editor className="modal__profile--bio"
           dangerouslySetInnerHTML={{__html: changeUser.bio ?? ''}}
@@ -89,7 +101,7 @@ const Profile:React.FC = () => {
           onBlur={handleSaveBio}
           placeholder='bio...' />
         <button name='name' className="modal__profile--btn" onClick={handleOnClickBtn}>
-          <span>Name</span><span>{changeUser.fullname}</span>
+          <span>Fullname</span><span>{changeUser.name}</span>
         </button>
         <button name='email' className="modal__profile--btn" onClick={handleOnClickBtn}>
           <span>Email</span><span>{changeUser.email}</span>
@@ -97,10 +109,29 @@ const Profile:React.FC = () => {
         <button name='username' className="modal__profile--btn" onClick={handleOnClickBtn}>
           <span>Username</span><span>{changeUser.username || 'Add username'}</span>
         </button>
+        <button name='birthday' className="modal__profile--btn" onClick={handleOnClickBtn}>
+          <span>Birthday</span><span>{changeUser.birthday || 'Add birthday'}</span>
+        </button>
+        <span className="modal__profile--links-title">Links</span>
+        {changeUser.links.map(link => (
+          <>
+          {link && (
+            <button key={link} className="modal__profile--btn" onClick={handleOnClickBtnLink(link)}>
+              <span>{ link }</span>
+            </button>
+          )}
+          </>
+        ))}
+        <button className="modal__profile--btn modal__profile--btn-add" onClick={handleOnClickBtnLink('new')}>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 0H5V5L0 5V9H5V14H9V9H14V5L9 5V0Z" fill="#A4A4A4"/>
+          </svg>
+          <span>Add link</span>
+        </button>
         {changeUser.isChanged && (
           <div className="btn-group">
-            <Button text='save' onClick={handleSave} />
-            <Button text='cancel' onClick={handleCancel} />
+            <Button onClick={handleSave}>save</Button>
+            <Button onClick={handleCancel}>cancel</Button>
           </div>
         )}
       </div>

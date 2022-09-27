@@ -1,19 +1,30 @@
 import { IUser } from "../models/UserModel";
 
-export default class UserDto {
+export class UserShortDto {
     id;
-    email;
-    fullname;
-    username;
+    name;
     avatar;
-    birthday;
 
     constructor(model: IUser) {
         this.id = model._id;
-        this.email = model.email;
-        this.fullname = model.fullname;
-        this.username = model.username;
+        this.name = model.name;
         this.avatar = model.avatar;
+    }
+}
+
+export class UserDto extends UserShortDto {
+    email;
+    username;
+    birthday;
+    bio;
+    links;
+
+    constructor(model: IUser) {
+        super(model);
+        this.email = model.email;
+        this.username = model.username;
         this.birthday = model.birthday;
+        this.bio = model.bio;
+        this.links = model.links;
     }
 }

@@ -1,30 +1,30 @@
 import { memo } from "react";
 
 import { IUserInfo } from "../../types/models/IUser";
-import { Avatar, Button } from "../../ui";
+import { Avatar } from "../../ui";
+import PersonBtn from "./PersonBtn";
 
 const Person:React.FC<IUserInfo> = ({ 
   id, 
   email, 
-  fullname, 
+  name, 
   avatar, 
   username, 
   bio, 
   links,
-  isFriend }) => {
-
+  isFriend,
+  isOnline }) => {
       
   return (
     <>
       <Avatar img={avatar} className='info__avatar' />
       <div className="info__header">
-        <span className="info__title info__text">{ fullname }</span>
+        <span className="info__title info__text info__name">
+          {isOnline ? (<div className="online"></div>) : (<div className="offline"></div>)}
+          <span>{ name }</span>
+        </span>
         {bio && (<p className="info__label info__text">{ bio }</p>)}
-        {isFriend ? (
-          <Button additionalClass="info__btn" text="remove from friends" />
-        ) : (
-          <Button additionalClass="info__btn" text="add to friends" />
-        )}
+        <PersonBtn id={id} isFriend={isFriend} />
       </div>
       <div className="info__content">
         {username && (

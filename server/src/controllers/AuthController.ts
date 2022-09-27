@@ -14,9 +14,9 @@ class AuthController {
             if (!errors.isEmpty()) {
                 throw ApiError.BadRequest('Validation failed', errors.array());
             }
-            const { email, password, fullname }  = req.body;
+            const { email, password, name }  = req.body;
 
-            const userData = await AuthService.registration(email, password, fullname);
+            const userData = await AuthService.registration(email, password, name);
 
             res.cookie('refreshToken', userData.refreshToken, {
                 maxAge: 30 * 24 * 60 * 60 * 1000,
@@ -25,9 +25,8 @@ class AuthController {
 
             return res.json(userData);
         } catch(e) {
-            next(e);
+            return next(e);
         }
-        return;
     }
     async login(req: Request, res: Response, next: NextFunction) {
         try {
@@ -43,9 +42,8 @@ class AuthController {
             return res.json(userData);
 
         } catch(e) {
-            next(e);
+            return next(e);
         }
-        return;
     }
     async logout(req: Request, res: Response, next: NextFunction) {
         try {
@@ -57,9 +55,8 @@ class AuthController {
             
             return res.status(200).json(token);
         } catch(e) {
-            next(e);
+            return next(e);
         }
-        return;
     }
     async confirm(req: Request, res: Response, next: NextFunction) {
         try {
@@ -69,7 +66,7 @@ class AuthController {
 
             return res.redirect(CLIENT_URL);
         } catch(e) {
-            next(e);
+            return next(e);
         }
     }
     async refresh(req: Request, res: Response, next: NextFunction) {
@@ -85,9 +82,25 @@ class AuthController {
 
             return res.json(userData);
         } catch(e) {
-            next(e);
+            return next(e);
         }
-        return;
+    }
+    async edit(req: Request, res: Response, next: NextFunction) {
+        try {
+            const user = req.user;
+            if (!user) {
+                throw ApiError.UnauthorizedError();
+            }
+
+            const data = await AuthService.edit({
+                id: user.id,
+                ...req.body.data
+            });
+
+            return res.status(200).json(data);
+        } catch(e) {
+            return next(e);
+        }
     }
 }
 

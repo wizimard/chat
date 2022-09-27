@@ -14,25 +14,8 @@ interface AuthState {
 const initialState:AuthState = {
   isAuth: false,
   isLoading: false,
-  user: {
-    id: '1',
-    fullname: 'Leo Gill', 
-    avatar: 'https://image.winudf.com/v2/image/Y29tLnNlbmNlc3R1ZGlvLmdpcmxzc2VsZmllX3NjcmVlbl8zXzE1MTc0NTg3MTBfMDU0/screen-3.jpg?fakeurl=1&type=.webp',
-    email: 'maskim2517@gmail.com',
-    links: ['https://facebook.com', 'https://vk.com'],
-    bio: 'Frontend developer',
-    birthday: (new Date()).toString()
-  },
-  changeUser: {
-    id: '1',
-    fullname: 'Leo Gill', 
-    avatar: 'https://image.winudf.com/v2/image/Y29tLnNlbmNlc3R1ZGlvLmdpcmxzc2VsZmllX3NjcmVlbl8zXzE1MTc0NTg3MTBfMDU0/screen-3.jpg?fakeurl=1&type=.webp',
-    email: 'maskim2517@gmail.com',
-    links: ['https://facebook.com', 'https://vk.com'],
-    bio: 'Frontend developer',
-    birthday: (new Date()).toString(),
-    isChanged: false
-  }
+  user: null,
+  changeUser: null
 };
 
 export const authSlice = createSlice({
@@ -62,7 +45,7 @@ export const authSlice = createSlice({
             state.user = null;
         },
         bio(state, action: PayloadAction<string>) {
-          if (state.changeUser) {
+          if (state.changeUser && state.changeUser.bio !== action.payload) {
             state.changeUser = {
               ...state.changeUser,
               bio: action.payload,
@@ -70,17 +53,17 @@ export const authSlice = createSlice({
             }
           }
         },
-        fullname(state, action: PayloadAction<string>) {
-          if (state.changeUser) {
+        name(state, action: PayloadAction<string>) {
+          if (state.changeUser && state.changeUser.name !== action.payload) {
             state.changeUser = {
               ...state.changeUser,
-              fullname: action.payload,
+              name: action.payload,
               isChanged: true
             }
           }
         },
         email(state, action: PayloadAction<string>) {
-          if (state.changeUser) {
+          if (state.changeUser && state.changeUser.email !== action.payload) {
             state.changeUser = {
               ...state.changeUser,
               email: action.payload,
@@ -89,7 +72,7 @@ export const authSlice = createSlice({
           }
         },
         username(state, action: PayloadAction<string>) {
-          if (state.changeUser) {
+          if (state.changeUser && state.changeUser.username !== action.payload) {
             state.changeUser = {
               ...state.changeUser,
               username: action.payload,
@@ -103,6 +86,19 @@ export const authSlice = createSlice({
               ...state.changeUser,
               avatar: action.payload,
               isChanged: true
+            }
+          }
+        },
+        link(state, action: PayloadAction<{ oldValue: string, newValue: string }>) {
+          if (state.changeUser) {
+            if (action.payload.newValue in state.changeUser.links) return;
+
+            if (action.payload.oldValue === 'new') {
+              state.changeUser.links = [...state.changeUser.links, action.payload.newValue.trim()];
+            } else {
+              state.changeUser.links = state.changeUser.links.join(' ')
+                .replace(action.payload.oldValue.trim(), action.payload.newValue.trim())
+                .split(' ');
             }
           }
         },

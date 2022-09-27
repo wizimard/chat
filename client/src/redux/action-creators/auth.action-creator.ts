@@ -1,6 +1,5 @@
 import AuthService from "../../services/AuthService";
-import FileService from "../../services/FileService";
-import { IUser } from "../../types/models/IUser";
+import { UserEditRequest } from "../../types/request/UserEditRequest";
 import { authAction } from "../reducer/authSlice"
 import { modalActions } from "../reducer/modalSlice";
 import { AppDispatch } from "../store"
@@ -22,11 +21,11 @@ export const login = (email: string, password: string) => {
         }
     }
 }
-export const register = (email: string, password: string, fullname: string) => {
+export const register = (email: string, password: string, name: string) => {
     return async(dispatch: AppDispatch) => {
         dispatch(authAction.start());
         try {
-            await AuthService.register(email, password, fullname);
+            await AuthService.register(email, password, name);
 
             dispatch(authAction.end());
 
@@ -54,8 +53,6 @@ export const checkAuth = () => {
         try {
             const response = await AuthService.checkAuth();
 
-            console.log(response.data);
-
             dispatch(authAction.login(response.data.user));
 
             return true;
@@ -65,13 +62,17 @@ export const checkAuth = () => {
         return false;
     }
 }
-export const editUser = (data: IUser) => {
+export const editUser = (data: UserEditRequest) => {
     return async(dispatch: AppDispatch) => {
         dispatch(modalActions.loading());
         try {
-            await AuthService.editUser(data);
+            const response = await AuthService.editUser(data);
+
+            dispatch(authAction.save());
 
             dispatch(modalActions.hideModal());
+
+            if (typeof response.data === 'string') dispatch(modalActions.message(response.data));
         } catch(e) {
             console.log(e);
             dispatch(modalActions.error('Error while trying to edit user data'));

@@ -1,0 +1,15 @@
+.avatar {
+  height: 100%;
+  
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  & img {
+    height: 100%;
+  }
+}

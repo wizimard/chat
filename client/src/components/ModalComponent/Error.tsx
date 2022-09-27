@@ -20,7 +20,7 @@ const Error:React.FC = () => {
           <p>{modal.message}</p>
       </div>
       <div className="btn-group">
-        <Button text="OK" onClick={handleCloseModal} />
+        <Button onClick={handleCloseModal}>OK</Button>
       </div>
     </ModalContainer>
   );
