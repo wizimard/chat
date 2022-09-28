@@ -1,0 +1,16 @@
+.add-message {
+  min-height: 70px;
+  width: 100%;
+  padding: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+
+  background-color: rgba(37, 39, 42, 0.5);
+
+  &__editor {
+    color: #fff;
+  }
+}

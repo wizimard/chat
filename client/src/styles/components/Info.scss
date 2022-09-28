@@ -1,21 +1,6 @@
 @use '../variables' as variables;
 
 .info {
-  width: 100%;
-  height: 100%;
-  padding: 10px;
-
-  overflow-y: overlay;
-  overflow-x: hidden;
-
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 10px;
-
-  color: #fff;
-  background-color: rgba(#25272A, 0.75);
   &__header, &__content {
       padding: 0 10px;
   }
@@ -143,7 +128,7 @@
       }
   }
   & .contacts__item {
-      color: variables.$darkfontPrimaryColor;
+      color: variables.$darkFontPrimaryColor;
   }
   &__link {
       margin-top: 20px;

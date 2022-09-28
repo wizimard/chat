@@ -1,6 +1,25 @@
-.content {
-  width: 100%;
-  height: 100%;
+@use '../variables' as variables;
 
-  background-color: rgba(#000, 0.5);
+.content {
+  &__header {
+    height: 70px;
+    width: 100%;
+    padding: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    color: variables.$darkFontPrimaryColor;
+  }
+  &__name {
+    width: 100%;
+    padding: 0 5px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    color: #fff;
+  }
 }

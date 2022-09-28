@@ -1,0 +1,24 @@
+@use '../variables' as variables;
+
+.burger-ellipse {
+  min-width: 10px;
+  min-height: auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 1;
+  gap: 2px;
+
+  &__item {
+    width: 4.5px;
+    height: 4.5px;
+
+    flex-shrink: 1;
+
+    background-color: variables.$darkFontPrimaryColor;
+
+    border-radius: 50%;
+  }
+}

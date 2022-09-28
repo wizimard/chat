@@ -19,10 +19,32 @@
   &__contacts {
     width: 20%;
   }
-  &__content {
-    width: 60%;
-  }
-  &__info {
-    width: 20%;
-  }
+}
+.content {
+  width: 60%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+
+  background-color: rgba(#000, 0.5);
+}
+.info {
+  width: 20%;
+  height: 100%;
+  padding: 10px;
+
+  overflow-y: overlay;
+  overflow-x: hidden;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+
+  color: #fff;
+  background-color: rgba(#25272A, 0.75);
 }

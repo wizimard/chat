@@ -6,6 +6,5 @@ export { default as Info } from './Info';
 export { default as Messages } from './Messages';
 export { default as FileUpload } from './FileUpload';
 export { default as Contacts } from './Contacts';
-export { default as HandleOnKeyDown } from './HandleOnKeyDown';
 export { default as Content } from './Content';
 export { default as AddMessage } from './AddMessage';

@@ -11,3 +11,5 @@ export { default as ModalComponent } from './ModalComponent';
 export { default as MenuButton } from './MenuButton';
 export { default as Empty } from './Empty';
 export { default as Error } from './Error';
+export { default as BurgerEllipse } from './BurgerEllipse';
+export { default as OnlineStatus } from './OnlineStatus';

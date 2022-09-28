@@ -13,6 +13,7 @@ interface ChatState {
   errorContacts: string;
   errorCurrentContact: string;
   errorChat: string;
+  isEmpty: boolean;
 }
 
 const initialState: ChatState = {
@@ -22,7 +23,8 @@ const initialState: ChatState = {
   isLoadingContact: false,
   errorContacts: '',
   errorCurrentContact: '',
-  errorChat: ''
+  errorChat: '',
+  isEmpty: true
 }
 
 const chatSlice = createSlice({
@@ -46,8 +48,9 @@ const chatSlice = createSlice({
       state.errorCurrentContact = '';
     },
     fetchCurrentContactSuccess(state, action: PayloadAction<IChannel | IUserInfo>) {
-      state.isLoadingContact = false;
       state.currentContact = action.payload;
+      state.isEmpty = false;
+      state.isLoadingContact = false;
     },
     fetchCurrentContactError(state, action: PayloadAction<string>) {
       state.errorCurrentContact = action.payload;
@@ -56,6 +59,7 @@ const chatSlice = createSlice({
     },
     clearCurrentContact(state) {
       state.currentContact = null;
+      state.isEmpty = true;
     },
     addFriend(state) {
       if (state.currentContact && 'isFriend' in state.currentContact) {

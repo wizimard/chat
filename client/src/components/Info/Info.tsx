@@ -11,8 +11,8 @@ const Info:React.FC = () => {
   const error = useAppSelector(state => state.chat.errorCurrentContact);
 
   return (
-    <div className='info'>
-      {(!isLoading && !error) && (
+    <>
+    {(!isLoading && !error) && (
         <>
         {currentContact ? (
           <>
@@ -35,7 +35,7 @@ const Info:React.FC = () => {
           <span>{ error }</span>
         </div>
       )}
-    </div>
+    </>
   );
 }
 
