@@ -1,6 +1,8 @@
 @use '../variables' as variables;
 
 .content {
+  position: relative;
+
   &__header {
     height: 70px;
     width: 100%;
@@ -11,6 +13,8 @@
     justify-content: flex-end;
 
     color: variables.$darkFontPrimaryColor;
+
+    border-bottom: 1px solid #fff;
   }
   &__name {
     width: 100%;

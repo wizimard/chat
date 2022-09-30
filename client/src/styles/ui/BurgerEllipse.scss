@@ -1,5 +1,3 @@
-@use '../variables' as variables;
-
 .burger-ellipse {
   min-width: 10px;
   min-height: auto;
@@ -17,7 +15,7 @@
 
     flex-shrink: 1;
 
-    background-color: variables.$darkFontPrimaryColor;
+    background-color: #fff;
 
     border-radius: 50%;
   }

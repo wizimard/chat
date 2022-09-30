@@ -32,10 +32,11 @@ const FileUpload:React.FC<FileUploadProps> = ({ accept = '*', maxElement = 1, on
       dispatch(modalActions.error('Error while trying to upload files'));
     }
 
-   }, [dispatch]);
+   }, [dispatch, maxElement, onChange]);
    
   return (
     <input type="file" 
+      className="file-upload"
       accept={accept}
       onChange={handleOnChange}
       multiple={maxElement > 1} />

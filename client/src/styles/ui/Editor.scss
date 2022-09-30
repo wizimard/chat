@@ -3,12 +3,17 @@
 .editor {
   width: 100%;
   min-height: 1em;
+  max-height: 8em;
   padding: 5px 0;
+
+  overflow: hidden;
+
+  font-size: 1.1em;
 
   border: none;
   outline: none;
 
-  font-size: 1.1em;
+  cursor: text;
 
   &:empty:before {
     content: attr(placeholder);
