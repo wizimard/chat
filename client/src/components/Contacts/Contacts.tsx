@@ -22,10 +22,14 @@ interface Person extends IUserFriend {
   onClick: () => void;
 }
 
-const Person:React.FC<Person> = ({ id, name, avatar, onClick }) => {
+const Person:React.FC<Person> = ({ id, name, avatar, isOnline, onClick }) => {
+
   return (
     <Link to={`/home/sel=${id}`} className='contacts__link' onClick={onClick}>
-      <Avatar img={avatar} />
+      <div className={`${isOnline ? 'online' : 'offline'}`}></div>
+      <Avatar name={name} 
+        img={avatar?.url}
+        attributes={{ className: 'contacts__avatar' }} />
       <span className="contacts__name">{name}</span>
     </Link>
   );
@@ -48,10 +52,11 @@ const Contacts:React.FC<ContactsProps> = ({ contacts }) => {
     <ul className="contacts">
       {contacts.map((contact) => (
         <li key={contact.id}>
-          {'avatar' in contact ? (
+          {'isOnline' in contact ? (
             <Person id={contact.id} 
               name={contact.name} 
               avatar={contact.avatar}
+              isOnline={contact.isOnline}
               onClick={handleOnClick} />
           ) : (
             <Channel id={contact.id} 

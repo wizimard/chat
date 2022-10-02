@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 
 import $api from '.';
+import { IUser } from "../types/models/IUser";
 import { UserEditRequest } from "../types/request/UserEditRequest";
 import { AuthResponse, AuthResponseEdit } from "../types/response/AuthResponse";
 

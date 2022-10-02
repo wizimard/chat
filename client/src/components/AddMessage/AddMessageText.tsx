@@ -1,27 +1,35 @@
-import { useContext, useCallback } from "react";
+import { useCallback } from "react";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { messageActions } from "../../redux/reducer/messageSlice";
 import { Editor } from "../../ui";
-import { AddMessageContext } from "./AddMessage";
 
 const AddMessageText:React.FC = () => {
 
-  const messageContext = useContext(AddMessageContext);
+  const dispatch = useAppDispatch();
 
-  const handleOnInput = useCallback((e: React.FormEvent<HTMLDivElement>) => {
-    messageContext.setText(e.currentTarget.innerText);
-  }, [messageContext]);
+  const addMessage = useAppSelector(state => state.message.addMessage);
 
-  const handleOnKeyUp = useCallback((e: React.KeyboardEvent) => {
-    if (!e.shiftKey && e.key === 'Enter') {
+  const handleOnBlur = useCallback((e: React.FormEvent<HTMLDivElement>) => {
+    dispatch(messageActions.setText(e.currentTarget.innerText));
+  }, [dispatch]);
+
+  const handleOnKeyUp = (e: React.KeyboardEvent) => {
+    if (!!addMessage && !e.shiftKey && e.key === 'Enter') {
       e.currentTarget.innerHTML = '';
-      messageContext.sendMessage();
+      dispatch(messageActions.sendMessage());
     }
-  }, [messageContext]);
+  }
 
   return (
-    <Editor className="add-message__editor"
-              onKeyUp={handleOnKeyUp}
-              onInput={handleOnInput}
-              placeholder="Type a message" />
+    <>
+    {addMessage && (
+      <Editor className="add-message__editor"
+        onKeyUp={handleOnKeyUp}
+        onBlur={handleOnBlur}
+        placeholder="Type a message"
+        dangerouslySetInnerHTML={{ __html: addMessage.text }} />
+    )}
+    </>
   );
 }
 

@@ -9,7 +9,9 @@ const User:React.FC = () => {
     <>
     {user && (
       <div className="sidebar__user">
-        <Avatar img={user.avatar} className='sidebar__avatar' />
+        <Avatar name={user.name} 
+          img={user.avatar?.url} 
+          attributes={{ className: 'sidebar__avatar' }} />
         <span className="sidebar__name">{ user.name }</span>
       </div>
     )}

@@ -17,7 +17,9 @@ const Person:React.FC<IUserInfo> = ({
       
   return (
     <>
-      <Avatar img={avatar} className='info__avatar' />
+      <Avatar name={name} 
+        img={avatar?.url} 
+        attributes={{ className: 'info__avatar' }} />
       <div className="info__header">
         <span className="info__title info__text info__name">
           {isOnline ? (<div className="online"></div>) : (<div className="offline"></div>)}

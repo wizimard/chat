@@ -1,8 +1,12 @@
+import React from "react";
 import { useCallback, useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { editUser } from "../../redux/action-creators/auth.action-creator";
 import { authAction } from "../../redux/reducer/authSlice";
 import { menuActions } from "../../redux/reducer/menuSlice";
+import { IFileShort } from "../../types/models/IFile";
+import { IUser } from "../../types/models/IUser";
+import { UserEditRequest } from "../../types/request/UserEditRequest";
 import { Avatar, Button, Editor } from "../../ui";
 import FileUpload from "../FileUpload";
 
@@ -51,13 +55,17 @@ const Profile:React.FC = () => {
   }, [dispatch]);
 
   const handleSave = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
-    changeUser && dispatch(editUser({
-      name: changeUser.name,
-      email: changeUser.email,
-      username: changeUser.username,
-      avatar: changeUser.avatar,
-      bio: changeUser.bio
-    }));
+    if (changeUser) {
+      const data: UserEditRequest = {
+        name: changeUser.name,
+        email: changeUser.email,
+        username: changeUser.username,
+        avatar: changeUser.avatar?.id,
+        bio: changeUser.bio,
+        links: changeUser.links
+      }
+      changeUser && dispatch(editUser(data));
+    }
     e.currentTarget.blur();
   }, [dispatch, changeUser]);
 
@@ -66,7 +74,7 @@ const Profile:React.FC = () => {
     e.currentTarget.blur();
   }, [dispatch]);
 
-  const handleSelectImage = useCallback((files: string[]) => {
+  const handleSelectImage = useCallback((files: IFileShort[]) => {
     if (files[0]) dispatch(authAction.avatar(files[0]));
    }, [dispatch]);
 
@@ -84,7 +92,9 @@ const Profile:React.FC = () => {
       <div className="modal__content modal__profile">
         <div className="modal__profile--top">
           <div className="modal__profile--avatar">
-            <Avatar img={changeUser.avatar} />
+            <Avatar name={changeUser.name} 
+              img={changeUser?.avatar?.url}
+              attributes={{ style: { fontSize: '3em' } }} />
             <label className="modal__profile--avatar-change">
               <svg width="20" height="20" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path fillRule="evenodd" clipRule="evenodd" d="M0 0H14V14H0V0ZM5 8L7 10L12 5V12H2V11L5 8ZM5.5 6C6.32843 6 7 5.32843 7 4.5C7 3.67157 6.32843 3 5.5 3C4.67157 3 4 3.67157 4 4.5C4 5.32843 4.67157 6 5.5 6Z" fill="#FFFFFF"/>
@@ -114,13 +124,13 @@ const Profile:React.FC = () => {
         </button>
         <span className="modal__profile--links-title">Links</span>
         {changeUser.links.map(link => (
-          <>
+          <React.Fragment key={link}>
           {link && (
-            <button key={link} className="modal__profile--btn" onClick={handleOnClickBtnLink(link)}>
+            <button className="modal__profile--btn" onClick={handleOnClickBtnLink(link)}>
               <span>{ link }</span>
             </button>
           )}
-          </>
+          </React.Fragment>
         ))}
         <button className="modal__profile--btn modal__profile--btn-add" onClick={handleOnClickBtnLink('new')}>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">

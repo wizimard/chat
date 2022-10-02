@@ -1,4 +1,5 @@
 import AuthService from "../../services/AuthService";
+import { IUser } from "../../types/models/IUser";
 import { UserEditRequest } from "../../types/request/UserEditRequest";
 import { authAction } from "../reducer/authSlice"
 import { modalActions } from "../reducer/modalSlice";

@@ -36,7 +36,7 @@ const ContentHeader:React.FC = () => {
     <div className="content__header">
       {currentConcat && (
         <>
-        {'avatar' in currentConcat ? (
+        {'isOnline' in currentConcat ? (
           <Person id={currentConcat.id}
             name={currentConcat.name}
             isOnline={currentConcat.isOnline} />

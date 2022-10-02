@@ -1,29 +1,30 @@
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getFileFormat } from "../../helpers/file";
-import { AddMessageContext } from "./AddMessage";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { messageActions } from "../../redux/reducer/messageSlice";
+import { IFileShort } from "../../types/models/IFile";
 
 type stateType = {
-  image: string[];
-  audio: string[];
-  video: string[];
-  document: string[];
+  image: IFileShort[];
+  audio: IFileShort[];
+  video: IFileShort[];
+  document: IFileShort[];
 }
 
 type ImageProps = {
-  image: string;
-  index: number;
-  handleOnRemove: (type: string, index: number) => void;
+  image: IFileShort;
+  handleOnRemove: (id: string) => void;
 }
 
-const Image:React.FC<ImageProps> = ({ image, index, handleOnRemove }) => {
+const Image:React.FC<ImageProps> = ({ image, handleOnRemove }) => {
 
   const handleOnClickRemove = () => {
-    handleOnRemove('image', index);
+    handleOnRemove(image.id);
   }
 
   return (
     <picture className="add-message__image">
-      <img src={image} alt={image} />
+      <img src={image.url} alt={image.url} />
       <button className="btn-img add-message__image--remove"
         onClick={handleOnClickRemove}>
         <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -36,7 +37,9 @@ const Image:React.FC<ImageProps> = ({ image, index, handleOnRemove }) => {
 
 const AddMessageAttachments:React.FC = () => {
 
-  const messageContext = useContext(AddMessageContext);
+  const dispatch = useAppDispatch();
+
+  const attachments = useAppSelector(state => state.message.addMessage?.attachments);
 
   const [state, setState] = useState<stateType>({
     image: [],
@@ -45,39 +48,30 @@ const AddMessageAttachments:React.FC = () => {
     document: []
   });
 
-  const handleOnRemove = (type: string, index: number) => {
-    const value = state;
-
-    switch(type) {
-      case 'image':
-        value.image = value.image.slice(0, index).concat(value.image.slice(index + 1, value.image.length));
-        break;
-      case 'audio':
-        value.audio = value.audio.slice(0, index).concat(value.audio.slice(index + 1, value.audio.length));
-        break;
-      case 'video':
-        value.video = value.video.slice(0, index).concat(value.video.slice(index + 1, value.video.length));
-        break;
-      case 'document':
-        value.document = value.document.slice(0, index).concat(value.document.slice(index + 1, value.document.length));
-        break;
-    }
-    const files = [];
-
-    for (let values of Object.values(value)) files.push(...values);
-
-    messageContext.setAttachments(files);
-  }
+  const handleOnRemove = useCallback((id: string) => {
+    dispatch(messageActions.removeAttachment(id));
+  }, [dispatch]);
 
   useEffect(() => {
+
+    if (!attachments || attachments.length === 0) {
+      setState({
+        image: [],
+        audio: [],
+        video: [],
+        document: []
+      });
+      return;
+    };
+
     const value: stateType = {
       image: [],
       audio: [],
       video: [],
       document: []
     }
-    for (let file of messageContext.state.attachments) {
-      const format = getFileFormat(file);
+    for (let file of attachments) {
+      const format = getFileFormat(file.url);
       switch(format) {
         case 'image':
           value.image.push(file);
@@ -94,17 +88,17 @@ const AddMessageAttachments:React.FC = () => {
       }
     }
     setState(value);
-  }, [messageContext.state.attachments]);
+  }, [attachments]);
 
   return (
     <>
-    {messageContext.state.attachments.length > 0 && (
+    {attachments && attachments.length > 0 && (
       <div className="add-message__attachments">
         {state.image.length > 0 && (
           <div className="add-message__images">
-          {state.image.map((image: string, index) => {
+          {state.image.map((image: IFileShort) => {
             return (
-              <Image image={image} index={index} handleOnRemove={handleOnRemove} />
+              <Image key={image.id} image={image} handleOnRemove={handleOnRemove} />
             );
           })}
           </div>

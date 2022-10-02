@@ -16,7 +16,7 @@ const Info:React.FC = () => {
         <>
         {currentContact ? (
           <>
-          {'avatar' in currentContact ? (
+          {'isOnline' in currentContact ? (
             <Person {...currentContact} />
           ) : (
             <Channel {...currentContact} />

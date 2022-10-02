@@ -15,8 +15,11 @@
   &__avatar {
       max-width: 200px;
       max-height: 200px;
+      width: 100%;
 
       align-self: center;
+
+      font-size: 3.5em;
   }
   &__text {
       line-height: 150%;

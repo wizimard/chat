@@ -2,6 +2,7 @@ import ApiError from "../exceptions/ApiError";
 import UserModel from "../models/UserModel";
 
 import { UserShortDto, UserDto } from '../dtos/UserDto';
+import FileService from "./FileService";
 
 class UserService {
   async edit(data: {
@@ -9,8 +10,9 @@ class UserService {
     name: string;
     email: string;
     username?: string;
-    avatar: string;
-    bio?: string;
+    avatar?: string;
+    bio: string;
+    links: string[];
   }) {
     const user = await UserModel.findById(data.id);
 
@@ -28,11 +30,21 @@ class UserService {
 
     const isChangedEmail = data.email === user.email ? false : true;
 
-    await user.updateOne({ ...data });
+    user.name = data.name;
+    user.email = data.email;
+    user.username = data.username;
+    user.avatar = data.avatar;
+    user.bio = data.bio;
+    user.links = data.links;
 
     await user.save();
 
     return isChangedEmail ? 'You changed your email.' : true;;
+  }
+  async getAvatar(fileId: string | undefined) {
+    if (!fileId) return undefined;
+
+    return await FileService.getFile(fileId);
   }
   async get(myId: string, userId: string) {
     const user = await UserModel.findById(myId);
@@ -40,7 +52,9 @@ class UserService {
 
     if (!user || !getUser) throw ApiError.NotFound();
 
-    const userDto = new UserDto(getUser);
+    const avatar = await this.getAvatar(getUser.avatar);
+
+    const userDto = new UserDto(getUser, avatar);
 
     return {
       ...userDto,
@@ -57,7 +71,9 @@ class UserService {
       const friend = await UserModel.findById(id);
       if (!friend) return;
 
-      return new UserShortDto(friend);
+      const avatar = await this.getAvatar(friend.avatar);
+
+      return new UserShortDto(friend, avatar);
     }));
 
     return friends;
@@ -96,7 +112,15 @@ class UserService {
       skip: 10 * page
     });
 
-    return users.map(user => new UserShortDto(user));
+    const usersDto: UserShortDto[] = []
+
+    for (const user of users) {
+      const avatar = await this.getAvatar(user.avatar);
+
+      usersDto.push(new UserShortDto(user, avatar));
+    }
+
+    return usersDto;
   }
   async addFriend(userId: string, friendId: string) {
     const user = await UserModel.findById(userId);

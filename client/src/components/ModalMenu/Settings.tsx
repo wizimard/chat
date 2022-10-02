@@ -34,7 +34,9 @@ const Settings:React.FC = () => {
     <>
     {user && (
       <div className="modal__user">
-        <Avatar img={user.avatar} />
+        <Avatar name={user.name} 
+          img={user?.avatar?.url}
+          attributes={{ style: { fontSize: '1.5em' } }} />
         <div className="modal__user--info">
           <span className="modal__user--username">{user.name}</span>
           <span>{user.email}</span>

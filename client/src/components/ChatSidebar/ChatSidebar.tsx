@@ -63,7 +63,21 @@ const ChatSidebar:React.FC = () => {
               }
               return (
                 <li key={contact.id} className={className} >
-                  {'isOnline' in contact ? <Person {...contact} /> : <Channel {...contact} />}
+                  {'isOnline' in contact ? (
+                  <Person id={contact.id}
+                    name={contact.name}
+                    avatar={contact.avatar}
+                    isOnline={contact.isOnline}
+                    unread={contact.unread} 
+                    type={"person"} 
+                    lastMessageDate={null} />
+                  ) : (
+                  <Channel id={contact.id} 
+                    name={contact.name} 
+                    unread={contact.unread} 
+                    type={"channel"} 
+                    lastMessageDate={null} />
+                  )}
                 </li>
               )
           })}

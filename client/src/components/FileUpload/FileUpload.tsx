@@ -2,11 +2,12 @@ import { useCallback } from "react";
 import { useAppDispatch } from "../../hooks/redux";
 import { modalActions } from "../../redux/reducer/modalSlice";
 import FileService from "../../services/FileService";
+import { IFileShort } from "../../types/models/IFile";
 
 interface FileUploadProps {
   accept?: string;
   maxElement?: number;
-  onChange?: (files: string[]) => void;
+  onChange?: (files: IFileShort[]) => void;
 }
 
 const FileUpload:React.FC<FileUploadProps> = ({ accept = '*', maxElement = 1, onChange }) => {

@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { IFileShort } from "../../types/models/IFile";
 
 import { IUser } from "../../types/models/IUser";
 
@@ -80,7 +81,7 @@ export const authSlice = createSlice({
             }
           }
         },
-        avatar(state, action: PayloadAction<string>) {
+        avatar(state, action: PayloadAction<IFileShort>) {
           if (state.changeUser) {
             state.changeUser = {
               ...state.changeUser,

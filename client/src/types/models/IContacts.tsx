@@ -1,3 +1,5 @@
+import { IFileShort } from './IFile';
+
 interface IContactGeneral {
   id: string;
   name: string;
@@ -10,7 +12,7 @@ export interface IContactChannel extends IContactGeneral {
 }
 export interface IContactPerson extends IContactGeneral {
   type: 'person';
-  avatar: string;
+  avatar?: IFileShort;
   isOnline: boolean;
 }
 export type IContact = IContactChannel | IContactPerson;

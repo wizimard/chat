@@ -55,7 +55,8 @@ const Channel:React.FC<IChannel> = ({
       <button className="info__label info__members--title">Admin</button>
       <Link to={`/home/sel=${admin.id}`} 
         className="contacts__item">
-        <Avatar img={admin.avatar} className={'contacts__avatar'} />
+        <Avatar name={admin.name} 
+          img={admin.avatar} />
         <span className="contacts__name">{ admin.name }</span>
       </Link>
       {administrators.length > 0 && (
@@ -66,7 +67,8 @@ const Channel:React.FC<IChannel> = ({
             <li key={administrator.id}>
               <Link to={`/home/sel=${administrator.id}`} 
                 className="contacts__item">
-                <Avatar img={administrator.avatar} className={'contacts__avatar'} />
+                <Avatar name={administrator.name} 
+                  img={administrator.avatar} />
                 <span className="contacts__name">{ administrator.name }</span>
               </Link>
             </li>
@@ -82,7 +84,8 @@ const Channel:React.FC<IChannel> = ({
               <li key={member.id}>
                 <Link to={`/home/sel=${member.id}`} 
                   className="contacts__item">
-                  <Avatar img={member.avatar} className={'contacts__avatar'} />
+                  <Avatar name={member.name} 
+                    img={member.avatar} />
                   <span className="contacts__name">{ member.name }</span>
                 </Link>
               </li>

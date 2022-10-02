@@ -11,6 +11,7 @@ import UserModel from "../models/UserModel";
 import { UserDto } from '../dtos/UserDto';
 
 import { API_URL } from '../constants/env';
+import UserService from './UserService';
 
 class AuthService {
     async registration(email: string, password: string, name: string) {
@@ -28,7 +29,6 @@ class AuthService {
             email: email.trim(),
             password: hashPassword,
             name: name.trim(),
-            avatar: 'http://localhost:5050/default/avatar.png',
             confirmLink
         });
 
@@ -51,6 +51,7 @@ class AuthService {
         if (!user) {
             throw ApiError.BadRequest('Uncorrect confirmation link');
         }
+        user.username = String(user._id);
         user.isConfirm = true;
 
         await user.save();
@@ -70,7 +71,10 @@ class AuthService {
         if (!user.isConfirm) {
             throw ApiError.Forbidden();
         }
-        const AuthUserDto = new UserDto(user);
+
+        const avatar = await UserService.getAvatar(user.avatar);
+
+        const AuthUserDto = new UserDto(user, avatar);
 
         const tokens = TokenService.generateTokens({...AuthUserDto});
 
@@ -100,7 +104,9 @@ class AuthService {
 
         if (!user) throw ApiError.UnauthorizedError();
 
-        const AuthUserDto = new UserDto(user);
+        const avatar = await UserService.getAvatar(user.avatar);
+
+        const AuthUserDto = new UserDto(user, avatar);
 
         const tokens = await TokenService.generateTokens({...AuthUserDto});
 
@@ -115,8 +121,8 @@ class AuthService {
         id: string;
         name: string;
         email: string;
+        avatar?: string;
         username?: string;
-        avatar: string;
         bio?: string;
     }) {
         const user = await UserModel.findById(data.id);
