@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IFileShort } from "../../types/models/IFile";
+import { IMessage } from "../../types/models/IMessage";
 
 type stateType = {
-  messages: any[];
+  messages: IMessage[];
   addMessage: {
     type: 'channel' | 'person';
     id: string;
@@ -52,6 +53,15 @@ const messageSlice = createSlice({
     },
     clearMessage(state) {
       state.addMessage = null;
+    },
+    addMessage(state, action: PayloadAction<IMessage>) {
+      state.messages = [...state.messages, action.payload];
+    },
+    addMessages(state, action: PayloadAction<IMessage[]>) {
+      state.messages = [...state.messages, ...action.payload];
+    },
+    clearMessages(state) {
+      state.messages = [];
     }
   }
 });

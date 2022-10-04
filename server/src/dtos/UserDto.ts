@@ -5,11 +5,13 @@ export class UserShortDto {
     id;
     name;
     avatar;
+    isOnline;
 
     constructor(model: IUser, avatar?: FileShortDto | undefined) {
         this.id = String(model._id);
         this.name = model.name;
         this.avatar = avatar;
+        this.isOnline = model.isOnline;
     }
 }
 

@@ -41,6 +41,7 @@
 	],
 	"files": [
 		"src/types/express.d.ts",
+		"src/types/web-socket.d.ts",
 		"src/index.ts"
 	]
 }

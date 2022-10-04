@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 import $api from ".";
 import { IContactPerson } from "../types/models/IContacts";
-import { IUserFriend, IUserInfo } from "../types/models/IUser";
+import { IUserShort, IUserInfo } from "../types/models/IUser";
 
 class UserService {
   async searchUser(searchText: string, page: number): Promise<AxiosResponse<IContactPerson[]>> {
@@ -10,8 +10,8 @@ class UserService {
   async getUser(id: string): Promise<AxiosResponse<IUserInfo>> {
     return $api.get<IUserInfo>(`/user/${id}`);
   }
-  async getFriends(): Promise<AxiosResponse<IUserFriend[]>> {
-    return $api.get<IUserFriend[]>('/user/friends');
+  async getFriends(): Promise<AxiosResponse<IUserShort[]>> {
+    return $api.get<IUserShort[]>('/user/friends');
   }
   async addFriend(id: string): Promise<AxiosResponse<boolean>> {
     return $api.post<boolean>('/user/friend/add', { id });

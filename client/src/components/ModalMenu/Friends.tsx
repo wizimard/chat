@@ -1,14 +1,14 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Contacts } from "..";
+import { People } from "..";
 import UserService from "../../services/UserService";
 import { IContactPerson } from "../../types/models/IContacts";
-import { IUserFriend } from "../../types/models/IUser";
+import { IUserShort } from "../../types/models/IUser";
 
 import { Input, Spinner } from "../../ui";
 
 const Friends:React.FC = () => {
 
-  const [friends, setFriends] = useState<IUserFriend[]>([]);
+  const [friends, setFriends] = useState<IUserShort[]>([]);
 
   const [searchText, setSearchText] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -60,10 +60,10 @@ const Friends:React.FC = () => {
       </div>
       <div className="friends__content">
         {friends && (
-          <Contacts contacts={friends.filter(friend => friend.name.toLocaleLowerCase().includes(searchText.toLocaleLowerCase()))} />
+          <People people={friends.filter(friend => friend.name.toLocaleLowerCase().includes(searchText.toLocaleLowerCase()))} />
         )}
         {searchUsers.length > 0 && (
-          <Contacts contacts={searchUsers} />
+          <People people={searchUsers} />
         )}
         {isLoading && (
           <div className="spinner__center">

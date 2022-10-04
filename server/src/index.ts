@@ -8,6 +8,8 @@ import Router from './router/Router';
 
 import errorMiddleware from './middlewares/ErrorMiddleware';
 
+import './web-socket/WebSocket';
+
 import { CLIENT_URL, PORT } from './constants/env';
 
 const app = express();

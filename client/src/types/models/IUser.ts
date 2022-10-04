@@ -1,7 +1,7 @@
 import { IContact } from "./IContacts";
 import { IFileShort } from "./IFile";
 
-export interface IUserFriend {
+export interface IUserShort {
     id: string;
     name: string;
     avatar?: IFileShort;

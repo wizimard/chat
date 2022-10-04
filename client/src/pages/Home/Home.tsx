@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Info, ChatSidebar, ModalMenu, Sidebar, Content } from "../../components";
+import { Info, ChatSidebar, ModalMenu, Sidebar, Content, WebSocketProvider } from "../../components";
 import { useAppDispatch } from "../../hooks/redux";
 import { fetchContacts, fetchCurrentContact } from "../../redux/action-creators/chat.action-creator";
 import { chatActions } from "../../redux/reducer/chatSlice";
@@ -90,6 +90,7 @@ const Home:React.FC = () => {
 
   return (
     <div className="chat">
+      <WebSocketProvider />
       <Sidebar />
       <div className="chat__contacts">
         <ChatSidebar />
