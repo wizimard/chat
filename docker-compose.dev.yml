@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
     proxy:
         image: nginx:1.24.0-alpine
@@ -9,11 +7,12 @@ services:
             - ./proxy/nginx.dev.conf:/etc/nginx/nginx.conf
         command: /bin/sh -c "nginx -g 'daemon off;'"
         ports:
-            - "8080:80"
-            - "8443:443"
+            - "${PROXY_PORT_HTTP}:80"
+            - "${PROXY_PORT_HTTPS}:443"
         depends_on:
             - server
             - client
+        restart: unless-stopped
         networks:
             - app
 
@@ -33,6 +32,7 @@ services:
             - "${CLIENT_DEV_PORT}:${CLIENT_DEV_PORT}"
         depends_on:
             - server
+        restart: unless-stopped
         networks:
             - app
 
@@ -45,16 +45,37 @@ services:
             target: dev
         volumes:
             - ./server:/app
-            - /app/node_modules
         environment:
-            port: ${SERVER_PORT}
-        command: npm run start:dev
+            PORT: ${SERVER_PORT}
+            DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+            JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET}
+            JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET}
+        command: ["npm", "run", "start:dev"]
         ports:
             - "${SERVER_PORT}:${SERVER_PORT}"
         depends_on:
-            - postgres
+            postgres:
+                condition: service_healthy
+        restart: always
         networks:
             - app
+
+    pgadmin:
+        image: dpage/pgadmin4:8.14.0
+        container_name: pgadmin
+        depends_on:
+            - postgres
+        environment:
+            PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+            PGADMIN_DEFAULT_PASSWORD: ${POSTGRES_PASSWORD}
+            PGADMIN_CONFIG_SERVER_MODE: 'False'
+        volumes:
+            - ./pgadmin:/var/lib/pgadmin
+        ports:
+            - ${PGADMIN_PORT:-8050}:80
+        networks:
+            - app
+        restart: unless-stopped
 
     postgres:
         image: postgres:16-alpine
@@ -64,15 +85,41 @@ services:
         volumes:
             - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
             - ./postgres/dumps:/docker-entrypoint-initdb.d/dumps
+            - ${POSTGRES_DATA_PATH}:/var/lib/postgresql/data/:rw
         environment:
             POSTGRES_USER: ${POSTGRES_USER}
             POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
             POSTGRES_DB: ${POSTGRES_DB}
+            PGDATA: /var/lib/postgresql/data/
         ports:
-            - "8432:5432"
+            - ${POSTGRES_PORT:-8432}:5432
+        healthcheck:
+            test: [ "CMD-SHELL", "pg_isready -U postgres -d chat" ]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+            start_period: 10s
+        restart: unless-stopped
+        deploy:
+            resources:
+                limits:
+                    cpus: '1'
+                    memory: 4G
         networks:
             - app
 
 networks:
     app:
         driver: bridge
+
+volumes:
+    pgadmin:
+        external: false
+    postgres:
+        external: false
+    server:
+        external: false
+    client:
+        external: false
+    proxy:
+        external: false
